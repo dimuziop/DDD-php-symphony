@@ -8,15 +8,26 @@
 namespace App\Security\User\Infrastructure\Entity;
 
 
+use App\Security\User\Domain\Roles;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 class User implements UserInterface
 {
     
-    /*** @var \Ramsey\Uuid\UuidInterface */
+    /**
+     * @TODO: Clean this smell, must be a repo
+     */
+    /**
+     * @var \Ramsey\Uuid\UuidInterface
+     * @Groups({"user_read", "user_write"})
+     */
     protected $id;
     
-    /*** @var string */
+    /**
+     * @var string
+     * @Groups({"user_read", "user_write"})
+     */
     protected $name;
     
     /*** @var string */
@@ -25,7 +36,10 @@ class User implements UserInterface
     /*** @var string */
     protected $password;
     
-    /*** @var string */
+    /**
+     * @var array
+     * @Groups({"user_read", "user_write"})
+     */
     protected $roles;
     
     /*** @var \DateTime */
@@ -39,9 +53,11 @@ class User implements UserInterface
     
     public function __construct(\App\Security\User\Domain\User $user)
     {
-        $this->name = $user->getName()->getPrimitive();
-        $this->email = $user->getEmail()->getPrimitive();
-        $this->password = $user->getPassword()->getPrimitive();
+        $this->id = $user->getUuid()->getPrimitive();
+        $this->name     = $user->getName()->getPrimitive();
+        $this->email    = $user->getEmail()->getPrimitive();
+        $this->password = password_hash($user->getPassword()->getPrimitive(), PASSWORD_BCRYPT);
+        $this->roles    = [Roles::ROLE_USER];
     }
     
     
@@ -59,9 +75,9 @@ class User implements UserInterface
      *
      * @return (Role|string)[] The user roles
      */
-    public function getRoles()
+    public function getRoles(): array
     {
-        // TODO: Implement getRoles() method.
+        return $this->roles;
     }
     
     /**
@@ -108,5 +124,10 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+    
+    public function markAsUpdated()
+    {
+        $this->updatedAt = new \DateTime();
     }
 }

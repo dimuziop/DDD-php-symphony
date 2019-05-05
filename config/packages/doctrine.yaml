@@ -27,3 +27,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            User:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/src/Security/User/Infrastructure/Persistence'
+                prefix: 'App\Security\User\Infrastructure\Entity'
+                alias: App

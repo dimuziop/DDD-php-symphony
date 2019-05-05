@@ -1,0 +1,30 @@
+App\Security\User\Infrastructure\Entity\User:
+  type: entity
+  table: users
+
+  lifecycleCallbacks:
+    preUpdate: [markAsUpdated]
+
+  id:
+    id:
+      type: uuid
+
+  fields:
+    name:
+      type: string
+      nullable: false
+    password:
+      type: string
+      nullable: false
+    email:
+      type: string
+      nullable: true
+    roles:
+      type: simple_array
+      nullable: false
+    createdAt:
+      type: datetime
+      nullable: false
+    updatedAt:
+      type: datetime
+      nullable: false
