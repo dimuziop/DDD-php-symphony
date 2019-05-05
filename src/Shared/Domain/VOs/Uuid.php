@@ -29,7 +29,7 @@ final class Uuid implements ValueObject
     public function __construct(?string $uuid = null)
     {
         // @TODO: Clean this smell
-        $this->uuid = $uuid ?? RamseyUuid::uuid4();
+        $this->uuid = $uuid ?? RamseyUuid::uuid4()->toString();
     }
     
     public function isSame(ValueObject $object): bool
@@ -39,6 +39,6 @@ final class Uuid implements ValueObject
     
     public function getPrimitive()
     {
-        // TODO: Implement getPrimitive() method.
+        return $this->uuid;
     }
 }
