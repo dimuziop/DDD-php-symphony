@@ -11,7 +11,7 @@ namespace App\Security\User\Domain\VOs;
 use App\Shared\Domain\VOs\Contract\StringValueObject;
 use App\Shared\Domain\VOs\Contract\ValueObject;
 
-final class Name implements StringValueObject
+final class UserName implements StringValueObject
 {
     
     /**

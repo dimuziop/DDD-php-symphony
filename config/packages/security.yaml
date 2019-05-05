@@ -3,11 +3,15 @@ security:
     providers:
         in_memory: { memory: ~ }
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+        docs:
+            pattern: ^/api/v1/docs
+            methods: [GET]
             security: false
-        main:
-            anonymous: true
+        #dev:
+        #    pattern: ^/(_(profiler|wdt)|css|images|js)/
+        #    security: false
+        #main:
+        #    anonymous: true
 
             # activate different ways to authenticate
 
@@ -16,9 +20,24 @@ security:
 
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
+        login:
+            pattern: ^/api/v1/login
+            stateless: true
+            anonymous: true
+            form_login:
+                check_path: /api/v1/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern: ^/api/v1
+            stateless: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/api/v1, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/profile, roles: ROLE_USER }

@@ -5,6 +5,7 @@
         "php": "^7.3.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "api-platform/api-pack": "^1.2",
         "lexik/jwt-authentication-bundle": "^2.6",
         "ramsey/uuid-doctrine": "^1.5",
         "symfony/console": "4.2.*",
@@ -59,5 +60,9 @@
             "allow-contrib": false,
             "require": "4.2.*"
         }
+    },
+    "require-dev": {
+        "friends-of-behat/symfony-extension": "^2.0",
+        "symfony/test-pack": "^1.0"
     }
 }
