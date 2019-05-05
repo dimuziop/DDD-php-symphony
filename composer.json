@@ -62,7 +62,12 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.1",
         "friends-of-behat/symfony-extension": "^2.0",
+        "friendsofphp/php-cs-fixer": "^2.14",
+        "phpmd/phpmd": "^2.6",
+        "phpspec/phpspec": "^5.1",
+        "squizlabs/php_codesniffer": "*",
         "symfony/test-pack": "^1.0"
     }
 }
