@@ -8,18 +8,24 @@
 namespace App\Security\User\Domain\VOs;
 
 
+use App\Shared\Domain\Security\Encryptable;
+use App\Shared\Domain\Security\EncryptationMethod;
 use App\Shared\Domain\VOs\Contract\StringValueObject;
 use App\Shared\Domain\VOs\Contract\ValueObject;
 
-final class Password implements StringValueObject
+final class Password implements StringValueObject, Encryptable
 {
     
-    /*** @var string */
+    /** @var string */
     private $password;
     
-    public function __construct(string $password)
+    /** @var EncryptationMethod */
+    private $encryptor;
+    
+    public function __construct(string $password, EncryptationMethod $encryptor)
     {
-        $this->password = $password;
+        $this->encryptor = $encryptor;
+        $this->password = $this->crypt($password);
     }
     
     public function getPrimitive(): string
@@ -27,13 +33,28 @@ final class Password implements StringValueObject
         return (string) $this->password;
     }
     
-    public function isNull(): bool
-    {
-        // TODO: Implement isNull() method.
-    }
-    
+    /**
+     * Passwords never can be the same, except if it is the same instance
+     * @param \App\Shared\Domain\VOs\Contract\ValueObject $object
+     *
+     * @return bool
+     */
     public function isSame(ValueObject $object): bool
     {
-        // TODO: Implement isSame() method.
+        if (!$object instanceof $this) {
+            return false;
+        }
+    
+        return $object->getPrimitive() === $this->getPrimitive();
+    }
+    
+    public function crypt($password): string
+    {
+        return $this->encryptor->encrypt($password);
+    }
+    
+    public function isValid(StringValueObject $plainPassword): bool
+    {
+        return $this->encryptor->verify($this, $plainPassword);
     }
 }
