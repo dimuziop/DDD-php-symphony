@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Behat;
 
+use App\Security\User\Domain\User;
 use Behat\Behat\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,22 +28,22 @@ final class DemoContext implements Context
     {
         $this->kernel = $kernel;
     }
-
+    
     /**
      * @When a demo scenario sends a request to :path
+     *
+     * @param string $path
      */
-    public function aDemoScenarioSendsARequestTo(string $path): void
+    public function aRegisterScenarioHappens(string $path): void
     {
-        $this->response = $this->kernel->handle(Request::create($path, 'GET'));
+    
     }
 
     /**
-     * @Then the response should be received
+     * @Then an user must be created in our database
      */
-    public function theResponseShouldBeReceived(): void
+    public function mustBeAssertThatTheUserIsCreated(): User
     {
-        if ($this->response === null) {
-            throw new \RuntimeException('No response received');
-        }
+    
     }
 }

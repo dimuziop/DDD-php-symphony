@@ -8,7 +8,9 @@
 namespace App\Shared\Domain\VOs\Contract;
 
 
-interface NullableValueObject
+interface StringNullableValueObject extends ValueObject
 {
     public function isNull(): bool;
+    
+    public function getPrimitive(): ?string ;
 }
