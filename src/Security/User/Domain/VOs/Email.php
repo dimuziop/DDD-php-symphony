@@ -8,24 +8,25 @@
 namespace App\Security\User\Domain\VOs;
 
 
-use App\Shared\Domain\VOs\Contract\NullableValueObject;
+use App\Shared\Domain\VOs\Contract\StringNullableValueObject;
 use App\Shared\Domain\VOs\Contract\StringValueObject;
 use App\Shared\Domain\VOs\Contract\ValueObject;
+use App\Shared\Domain\VOs\DomainTypeException;
 
-final class Email implements StringValueObject, NullableValueObject
+final class Email implements StringNullableValueObject
 {
     
-    /*** @var string */
+    /** @var string */
     private $email;
     
-    public function __construct(string $email = null)
+    public function __construct(?string $email = null)
     {
-        $this->email = $email;
+        $this->email = $email !== null ? $this->validateMailOrFail($email) : null;
     }
     
-    public function getPrimitive(): string
+    public function getPrimitive(): ?string
     {
-        return (string) $this->email;
+        return $this->email;
     }
     
     public function isNull(): bool
@@ -35,6 +36,19 @@ final class Email implements StringValueObject, NullableValueObject
     
     public function isSame(ValueObject $object): bool
     {
-        // TODO: Implement isSame() method.
+        if (!$object instanceof $this) {
+            return false;
+        }
+        
+        return $object->getPrimitive() === $this->getPrimitive();
+    }
+    
+    private function validateMailOrFail(string $email): string
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $email;
+        }
+        
+        throw new DomainTypeException( 'Invalid Email Format');
     }
 }
