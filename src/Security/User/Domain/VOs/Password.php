@@ -7,7 +7,6 @@
 
 namespace App\Security\User\Domain\VOs;
 
-
 use App\Shared\Domain\Security\Encryptable;
 use App\Shared\Domain\Security\EncryptationMethod;
 use App\Shared\Domain\VOs\Contract\StringValueObject;

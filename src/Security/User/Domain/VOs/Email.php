@@ -9,7 +9,6 @@ namespace App\Security\User\Domain\VOs;
 
 
 use App\Shared\Domain\VOs\Contract\StringNullableValueObject;
-use App\Shared\Domain\VOs\Contract\StringValueObject;
 use App\Shared\Domain\VOs\Contract\ValueObject;
 use App\Shared\Domain\VOs\DomainTypeException;
 
